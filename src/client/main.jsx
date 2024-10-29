@@ -8,12 +8,26 @@ import InformationalPage from "./components/InformationalPage.jsx"
 import LoginPage /* action as loginPageAction */ from "./components/LoginPage.jsx"
 
 const auth = {
-  isLoggedIn: false,
-  login(username, password) {
-    this.isLoggedIn = true
+  get isLoggedIn() {
+    return fetch(window.location.origin + "/api/loginstatus")
+      .then((res) => res.json())
+      .then((json) => json.loggedIn)
   },
-  logout() {
-    this.isLoggedIn = false
+  async login(username, password) {
+    const res = await fetch(window.location.origin + "/api/login", {
+      method: "POST",
+      body: JSON.stringify({ username, password }),
+      headers: {
+        "content-type": "application/json"
+      }
+    })
+
+    return await res.json()
+  },
+  async logout() {
+    await fetch(window.location.origin + "/api/logout", {
+      method: "POST"
+    })
   }
 }
 
@@ -24,9 +38,9 @@ const router = createBrowserRouter([
   },
   {
     path: "/app",
-    loader: ({ request, params }) => {
+    loader: async ({ request, params }) => {
       const url = new URL(request.url)
-      return auth.isLoggedIn
+      return (await auth.isLoggedIn)
         ? null
         : redirect("/login" + `?redirectTo=${url.pathname}`)
     },
@@ -34,36 +48,47 @@ const router = createBrowserRouter([
   },
   {
     path: "/account",
-    loader: ({ request, params }) => {
+    loader: async ({ request, params }) => {
       const url = new URL(request.url)
-      return auth.isLoggedIn ? null : redirect("/")
+      return (await auth.isLoggedIn)
+        ? null
+        : redirect("/login" + `?redirectTo=${url.pathname}`)
     },
     element: <AccountPage />
   },
   {
     path: "/login",
-    loader: () => {
-      if (auth.isLoggedIn) return redirect("/app")
+    loader: async () => {
+      if (await auth.isLoggedIn) return redirect("/app")
       return null
     },
     action: async function action({ request, params }) {
       const data = await request.formData()
-      auth.login(data.get("username"), data.get("password"))
-      console.log()
-      const redirectTo = auth.isLoggedIn
-        ? data.get("redirectTo") || "/app"
-        : "/login"
+      let loginData = await auth.login(
+        data.get("username"),
+        data.get("password")
+      )
 
-      console.log(redirectTo)
+      if (loginData.loggedIn) {
+        const redirectTo = (await auth.isLoggedIn)
+          ? data.get("redirectTo") || "/app"
+          : "/login"
 
-      return redirect(redirectTo)
+        return redirect(redirectTo)
+      } else {
+        return null
+      }
     },
     element: <LoginPage />
   },
   {
+    path: "/register",
+    element: <RegisterPage />
+  },
+  {
     path: "/logout",
-    loader: ({ params, request }) => {
-      auth.logout()
+    loader: async ({ params, request }) => {
+      await auth.logout()
       return redirect("/")
     }
   }
