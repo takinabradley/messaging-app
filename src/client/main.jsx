@@ -7,29 +7,7 @@ import AccountPage from "./components/AccountPage.jsx"
 import InformationalPage from "./components/InformationalPage.jsx"
 import LoginPage /* action as loginPageAction */ from "./components/LoginPage.jsx"
 
-const auth = {
-  get isLoggedIn() {
-    return fetch(window.location.origin + "/api/loginstatus")
-      .then((res) => res.json())
-      .then((json) => json.loggedIn)
-  },
-  async login(username, password) {
-    const res = await fetch(window.location.origin + "/api/login", {
-      method: "POST",
-      body: JSON.stringify({ username, password }),
-      headers: {
-        "content-type": "application/json"
-      }
-    })
-
-    return await res.json()
-  },
-  async logout() {
-    await fetch(window.location.origin + "/api/logout", {
-      method: "POST"
-    })
-  }
-}
+import auth from "./modules/auth.js"
 
 const router = createBrowserRouter([
   {
@@ -80,10 +58,6 @@ const router = createBrowserRouter([
       }
     },
     element: <LoginPage />
-  },
-  {
-    path: "/register",
-    element: <RegisterPage />
   },
   {
     path: "/logout",
