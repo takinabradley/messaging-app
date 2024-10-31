@@ -34,25 +34,34 @@ apiRouter.post(
   body("verifyPassword").custom(matchesPassword),
   asyncErrorHandler(async (req, res, next) => {
     const validation = validationResult(req)
-    if (validation.isEmpty()) {
+
+    if (!validation.isEmpty()) {
+      return res
+        .status(400)
+        .json({ success: false, errors: validation.array() })
+    }
+
+    try {
       const { username, password } = req.body
       const hash = await bcrypt.hash(password, 10)
       const user = new User({ username, hash })
       await user.save()
       return req.login(user, (err) => {
-        res.json({ status: "You are a good boy <3" })
+        res.json({ success: true, result: null })
       })
-    } else {
-      return res
-        .status(400)
-        .json({ status: "BAD! BAD!", errors: validation.array() })
+    } catch (e) {
+      return res.status(500).json({
+        success: false,
+        errors: [{
+          type: "register_error",
+          msg: "Something went wrong. Please try again later"
+        }]
+      })
     }
   })
 )
 
 apiRouter.get("/loginstatus", (req, res, next) => {
-  console.log("user", req.user)
-  console.log("session", req.session)
   if (req.user) return res.json({ loggedIn: true })
   return res.json({ loggedIn: false })
 })
@@ -82,13 +91,26 @@ apiRouter.post(
     if (validation.isEmpty()) return next()
     return res
       .status(400)
-      .json({ status: "BAD! BAD!", errors: validation.array() })
+      .json({ success: false, errors: validation.array() })
   },
-  passport.authenticate("local"),
+  passport.authenticate("local", { failWithError: true }),
+  (err, req, res, next) => {
+    if (err.message === "Unauthorized") {
+      return res.status(401).json({
+        success: false,
+        errors: [{
+          type: 'login_error',
+          msg: "username or password is incorrect"
+        }]
+      })
+    }
+    next(err)
+  },
   (req, res, next) => {
-    if (req.user) return res.json({ loggedIn: true })
+    if (req.user) return res.json({ success: true, result: null })
     next()
-  }
+  },
+
 )
 
 apiRouter.post("/logout", function (req, res, next) {
@@ -107,7 +129,7 @@ apiRouter.get("/users/:userId", () => {
 })
 
 apiRouter.use((err, req, res, next) => {
-  if (err) return res.send(err?.message || "Something went wrong!")
+  if (err) return res.status(500).json({ message: err?.message || "Something went wrong!" })
   next()
 })
 

@@ -5,7 +5,14 @@ import { createBrowserRouter, redirect, RouterProvider } from "react-router-dom"
 import MessengerApp from "./components/MessengerApp.jsx"
 import AccountPage from "./components/AccountPage.jsx"
 import InformationalPage from "./components/InformationalPage.jsx"
-import LoginPage /* action as loginPageAction */ from "./components/LoginPage.jsx"
+import LoginPage, {
+  loader as LoginPageLoader,
+  action as LoginPageAction /* action as loginPageAction */
+} from "./components/LoginPage.jsx"
+import RegisterPage, {
+  loader as RegisterPageLoader,
+  action as RegisterPageAction
+} from "./components/RegisterPage.jsx"
 
 import auth from "./modules/auth.js"
 
@@ -36,28 +43,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    loader: async () => {
-      if (await auth.isLoggedIn) return redirect("/app")
-      return null
-    },
-    action: async function action({ request, params }) {
-      const data = await request.formData()
-      let loginData = await auth.login(
-        data.get("username"),
-        data.get("password")
-      )
-
-      if (loginData.loggedIn) {
-        const redirectTo = (await auth.isLoggedIn)
-          ? data.get("redirectTo") || "/app"
-          : "/login"
-
-        return redirect(redirectTo)
-      } else {
-        return null
-      }
-    },
+    loader: LoginPageLoader,
+    action: LoginPageAction,
     element: <LoginPage />
+  },
+  {
+    path: "/register",
+    loader: RegisterPageLoader,
+    action: RegisterPageAction,
+    element: <RegisterPage />
   },
   {
     path: "/logout",
