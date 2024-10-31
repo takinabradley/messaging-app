@@ -2,13 +2,21 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { createBrowserRouter, redirect, RouterProvider } from "react-router-dom"
 
-import MessengerApp from "./components/MessengerApp.jsx"
-import AccountPage from "./components/AccountPage.jsx"
+import MessengerApp, {
+  loader as MessengerAppLoader
+} from "./components/MessengerApp.jsx"
+
+import AccountPage, {
+  loader as AccountPageLoader
+} from "./components/AccountPage.jsx"
+
 import InformationalPage from "./components/InformationalPage.jsx"
+
 import LoginPage, {
   loader as LoginPageLoader,
   action as LoginPageAction /* action as loginPageAction */
 } from "./components/LoginPage.jsx"
+
 import RegisterPage, {
   loader as RegisterPageLoader,
   action as RegisterPageAction
@@ -23,22 +31,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/app",
-    loader: async ({ request, params }) => {
-      const url = new URL(request.url)
-      return (await auth.isLoggedIn)
-        ? null
-        : redirect("/login" + `?redirectTo=${url.pathname}`)
-    },
+    loader: MessengerAppLoader,
     element: <MessengerApp />
   },
   {
     path: "/account",
-    loader: async ({ request, params }) => {
-      const url = new URL(request.url)
-      return (await auth.isLoggedIn)
-        ? null
-        : redirect("/login" + `?redirectTo=${url.pathname}`)
-    },
+    loader: AccountPageLoader,
     element: <AccountPage />
   },
   {

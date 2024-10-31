@@ -1,4 +1,10 @@
 import { Link } from "react-router-dom"
+import redirectIfLoggedOut from "../modules/redirectIfLoggedOut"
+
+export async function loader({ request, params }) {
+  return await redirectIfLoggedOut({ request, params })
+}
+
 export default function MessengerApp() {
   console.log("messengerApp...")
   return (
