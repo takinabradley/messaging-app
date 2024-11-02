@@ -61,6 +61,5 @@ app.use(passport.authenticate("session")) // needed for things like req.logout
 app.use("/auth", authRouter)
 app.use("/api", apiRouter)
 
-ViteExpress.listen(app, process.env.PORT || 3000, () =>
-  console.log("Server is listening on port 3000...")
-)
+export default app
+
