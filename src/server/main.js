@@ -14,7 +14,7 @@ const MS_PER_DAY = 8.64e7
 /* 
 DB CONNECTION
 */
-const mongoUri = process.env.MONGO_TEST_URI || process.env.MONGO_PROD_URI || ""
+const mongoUri = process.env.MONGO_DEV_URI || process.env.MONGO_PROD_URI || ""
 mongoose.connect(mongoUri).then(
   () => console.log("Successfully connected to MongoDB"),
   (err) => {
