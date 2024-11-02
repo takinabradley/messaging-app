@@ -7,6 +7,7 @@ import session from "express-session"
 import connectMongoDBSession from "connect-mongodb-session"
 
 import configurePassport from "./modules/configurePassport.js"
+import authRouter from "./routes/auth.js"
 import apiRouter from "./routes/api.js"
 
 const MS_PER_DAY = 8.64e7
@@ -57,6 +58,7 @@ configurePassport(passport)
 
 app.use(passport.authenticate("session")) // needed for things like req.logout
 
+app.use("/auth", authRouter)
 app.use("/api", apiRouter)
 
 ViteExpress.listen(app, process.env.PORT || 3000, () =>

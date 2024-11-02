@@ -1,7 +1,7 @@
 const auth = {
   get isLoggedIn() {
     try {
-      return fetch(window.location.origin + "/api/loginstatus")
+      return fetch(window.location.origin + "/auth/loginstatus")
         .then((res) => res.json())
         .then((json) => json.loggedIn)
     } catch (e) {
@@ -10,7 +10,7 @@ const auth = {
   },
   async register(username, password, verifyPassword) {
     try {
-      const res = await fetch(window.location.origin + "/api/signup", {
+      const res = await fetch(window.location.origin + "/auth/signup", {
         method: "POST",
         body: JSON.stringify({ username, password, verifyPassword }),
         headers: {
@@ -26,7 +26,7 @@ const auth = {
   },
   async login(username, password) {
     try {
-      const res = await fetch(window.location.origin + "/api/login", {
+      const res = await fetch(window.location.origin + "/auth/login", {
         method: "POST",
         body: JSON.stringify({ username, password }),
         headers: {
@@ -42,7 +42,7 @@ const auth = {
 
   },
   async logout() {
-    await fetch(window.location.origin + "/api/logout", {
+    await fetch(window.location.origin + "/auth/logout", {
       method: "POST"
     })
   }
