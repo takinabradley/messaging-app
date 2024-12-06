@@ -26,6 +26,8 @@ mongoose.connect(mongoUri).then(
 /* General middleware configuration */
 const app = express()
 
+app.set("trust proxy", 1)
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
@@ -46,6 +48,7 @@ app.use(
     store: store,
     cookie: {
       path: "/",
+      sameSite: true,
       httpOnly: true,
       secure: process.env.USE_HTTP !== "true",
       maxAge: MS_PER_DAY
