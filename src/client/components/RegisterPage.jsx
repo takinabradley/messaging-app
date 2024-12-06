@@ -36,10 +36,19 @@ export default function RegisterPage() {
     <div>
       Please register...
       <Form action="/register" method="POST">
-        <input type="text" name="username" />
+        <label htmlFor="username">
+          Username:
+          <input type="text" name="username" />
+        </label>
 
-        <input type="password" name="password" />
-        <input type="password" name="verifyPassword" />
+        <label htmlFor="">
+          Password:
+          <input type="password" name="password" />
+        </label>
+        <label htmlFor="">
+          Confirm Password:
+          <input type="password" name="verifyPassword" />
+        </label>
         <button>login</button>
       </Form>
       <output>
