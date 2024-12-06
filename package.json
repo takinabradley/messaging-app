@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "dev": "node --watch-path=src/server --watch src/server/server.js",
     "start": "NODE_ENV=production node src/server/server.js",
