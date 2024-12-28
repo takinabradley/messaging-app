@@ -7,9 +7,9 @@ import path from "node:path"
 const accountSvg = readFile(
   path.resolve(import.meta.dirname, "../../../public/account.svg")
 )
-accountSvg.then((data) => {
+/* accountSvg.then((data) => {
   console.log(data.toString())
-})
+}) */
 
 await accountSvg
 
