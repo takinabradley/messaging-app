@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, beforeEach, describe } from "vitest"
+import { afterAll, beforeAll, beforeEach, describe, expect } from "vitest"
 import redirectIfLoggedOut from "../../../../modules/react-router/loaders/redirectIfLoggedOut"
 import auth from "../../../../modules/auth"
 
@@ -24,7 +24,7 @@ describe("redirectIfLoggedOut", () => {
   test("returns null if auth.isLoggedIn returns true", async () => {
     isLoggedIn.mockImplementationOnce(async () => true)
     const requestObj = { url: "http://www.hello.com" }
-    console.log(await redirectIfLoggedOut({ request: requestObj }))
+    expect(await redirectIfLoggedOut({ request: requestObj })).toBeNull()
   })
 
   test("returns a redirect response to login page if auth.isLoggedIn returns false", async () => {
@@ -51,3 +51,5 @@ describe("redirectIfLoggedOut", () => {
     expect(await redirectIfLoggedOut({ request: requestObj })).toEqual(response)
   })
 })
+
+console.log(process.env)
