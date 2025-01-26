@@ -1,4 +1,4 @@
-import auth from "./auth"
+import auth from "../../auth"
 import { redirect } from "react-router-dom"
 
 export default async function redirectIfLoggedOut({ request, params }) {
