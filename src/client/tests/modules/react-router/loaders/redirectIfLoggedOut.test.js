@@ -51,5 +51,3 @@ describe("redirectIfLoggedOut", () => {
     expect(await redirectIfLoggedOut({ request: requestObj })).toEqual(response)
   })
 })
-
-console.log(process.env)
