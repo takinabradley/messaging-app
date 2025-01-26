@@ -29,7 +29,7 @@ authRouter.post(
     .trim()
     .notEmpty()
     .withMessage("password must contain one or more non-whitespace characters")
-    .isLength({ min: 0, max: 18 })
+    .isLength({ min: 1, max: 18 })
     .withMessage("password may not exceed 18 characters"),
   body("verifyPassword").custom(matchesPassword),
   asyncErrorHandler(async (req, res, next) => {
@@ -46,9 +46,7 @@ authRouter.post(
       const hash = await bcrypt.hash(password, 10)
       const user = new User({ username, hash })
       await user.save()
-      return req.login(user, (err) => {
-        res.json({ success: true, result: null })
-      })
+      return req.login(user, (err) => res.json({ success: true, errors: [] }))
     } catch (e) {
       return res.status(500).json({
         success: false,
@@ -107,7 +105,7 @@ authRouter.post(
     next(err)
   },
   (req, res, next) => {
-    if (req.user) return res.json({ success: true, result: null })
+    if (req.user) return res.json({ success: true, eroors: [] })
     next()
   },
 
