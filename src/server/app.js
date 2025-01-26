@@ -70,4 +70,3 @@ app.use("/auth", authRouter)
 app.use("/api", apiRouter)
 
 export default app
-
