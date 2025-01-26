@@ -5,8 +5,11 @@ import mongoose from "mongoose"
 import "dotenv/config"
 import session from "express-session"
 import connectMongoDBSession from "connect-mongodb-session"
-
-import configurePassport from "./modules/configurePassport.js"
+import {
+  strategy,
+  serializeUser,
+  deserializeUser
+} from "./modules/configurePassport.js"
 import authRouter from "./routes/auth.js"
 import apiRouter from "./routes/api.js"
 
@@ -57,7 +60,11 @@ app.use(
 )
 
 /* PASSPORT */
-configurePassport(passport)
+passport.use(strategy)
+
+passport.serializeUser(serializeUser)
+
+passport.deserializeUser(deserializeUser)
 
 app.use(passport.authenticate("session")) // needed for things like req.logout
 
