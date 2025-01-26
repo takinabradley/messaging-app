@@ -6,10 +6,10 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environmentMatchGlobs: [
-      ['src/client/tests', 'jsdom'],
-      ['src/server/tests', 'node']
+      ['src/client/tests/**', 'jsdom'],
+      ['src/server/tests/**', 'node']
     ],
     globals: true,
-    setupFiles: "./src/client/tests/setup.js"
+    setupFiles: "./testSetup.js"
   }
 })
