@@ -1,12 +1,11 @@
 const auth = {
   get isLoggedIn() {
-    try {
-      return fetch(window.location.origin + "/auth/loginstatus")
-        .then((res) => res.json())
-        .then((json) => json.loggedIn)
-    } catch (e) {
-      return false
-    }
+    return fetch(window.location.origin + "/auth/loginstatus")
+      .then((res) => res.json())
+      .then((json) => json.loggedIn === true)
+      .catch((e) => {
+        return false
+      })
   },
   async register(username, password, verifyPassword) {
     try {
@@ -18,10 +17,19 @@ const auth = {
         }
       })
 
-      return await res.json()
+      const json = await res.json()
+      return json
     } catch (e) {
-      console.error(e)
-      return { success: false, errors: [{ type: "client_error", msg: "Something went wrong, please try again later", error: e }] }
+      return {
+        success: false,
+        errors: [
+          {
+            type: "client_error",
+            msg: "Something went wrong, please try again later",
+            error: e
+          }
+        ]
+      }
     }
   },
   async login(username, password) {
@@ -36,10 +44,17 @@ const auth = {
       const json = await res.json()
       return json
     } catch (e) {
-      console.error(e)
-      return { success: false, errors: [{ type: "client_error", msg: "Something went wrong, please try again later", error: e }] }
+      return {
+        success: false,
+        errors: [
+          {
+            type: "client_error",
+            msg: "Something went wrong, please try again later",
+            error: e
+          }
+        ]
+      }
     }
-
   },
   async logout() {
     await fetch(window.location.origin + "/auth/logout", {
