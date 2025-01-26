@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom"
-import redirectIfLoggedOut from "../modules/redirectIfLoggedOut"
+import redirectIfLoggedOut from "../modules/react-router/loaders/redirectIfLoggedOut"
 
 export async function loader({ request, params }) {
   return await redirectIfLoggedOut({ request, params })
 }
 
 export default function MessengerApp() {
-  console.log("messengerApp...")
   return (
-    <div className="MessengerApp">
+    <div className="MessengerApp" data-testid="MessengerApp">
       Welcome to the messenger app!
       <div>
         wanna go to the <Link to="/">main page</Link>

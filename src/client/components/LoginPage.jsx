@@ -31,23 +31,26 @@ export default function LoginPage() {
   const actionData = useActionData()
 
   return (
-    <div>
+    <div className="LoginPage" data-testid="LoginPage">
       Please log in...
-      <Form action="/login" method="POST">
+      <Form action="/login" method="POST" id="LoginPage__form" name="loginPage__form">
         <input
           type="hidden"
           value={searchParams.get("redirectTo") || undefined}
           name="redirectTo"
+          data-testid="LoginPage__redirectTo"
         />
+        <label htmlFor="LoginPage__username">username</label>
+        <input type="text" name="username" id="LoginPage__username"/>
 
-        <input type="text" name="username" />
-
-        <input type="password" name="password" />
+        <label htmlFor="LoginPage__password">password</label>
+        <input type="password" name="password" id="LoginPage__password"/>
+        
         <button>login</button>
       </Form>
-      <output>
-        {actionData
-          ? actionData.errors.map((err) => <div>{err.msg}</div>)
+      <output name="errors" form="LoginPage__form">
+        {actionData && actionData.errors
+          ? actionData.errors.map((err) => <div key={err.msg}>{err.msg}</div>)
           : null}
       </output>
     </div>

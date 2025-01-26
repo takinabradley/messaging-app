@@ -1,0 +1,50 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LoginPage > renders 1`] = `
+<div
+  class="LoginPage"
+  data-testid="LoginPage"
+>
+  Please log in...
+  <form
+    action="/login"
+    id="LoginPage__form"
+    method="post"
+    name="loginPage__form"
+  >
+    <input
+      data-testid="LoginPage__redirectTo"
+      name="redirectTo"
+      type="hidden"
+      value=""
+    />
+    <label
+      for="LoginPage__username"
+    >
+      username
+    </label>
+    <input
+      id="LoginPage__username"
+      name="username"
+      type="text"
+    />
+    <label
+      for="LoginPage__password"
+    >
+      password
+    </label>
+    <input
+      id="LoginPage__password"
+      name="password"
+      type="password"
+    />
+    <button>
+      login
+    </button>
+  </form>
+  <output
+    form="LoginPage__form"
+    name="errors"
+  />
+</div>
+`;

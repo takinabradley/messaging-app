@@ -33,28 +33,28 @@ export default function RegisterPage() {
   const actionData = useActionData()
 
   return (
-    <div>
+    <div className="RegisterPage" data-testid="RegisterPage">
       Please register...
-      <Form action="/register" method="POST">
-        <label htmlFor="username">
-          Username:
-          <input type="text" name="username" />
+      <Form action="/register" method="POST" name="RegisterPage__form" id="RegisterPage__form">
+        <label htmlFor="RegisterPage__username">
+          username
+          <input type="text" name="username" id="RegisterPage__username"/>
         </label>
 
-        <label htmlFor="">
-          Password:
-          <input type="password" name="password" />
+        <label htmlFor="RegisterPage__password">
+          password
+          <input type="password" name="password" id="RegisterPage__password"/>
         </label>
-        <label htmlFor="">
+        <label htmlFor="RegisterPage__verifyPassword" >
           Confirm Password:
-          <input type="password" name="verifyPassword" />
+          <input type="password" name="verifyPassword" id="RegisterPage__verifyPassword"/>
         </label>
-        <button>login</button>
+        <button>register</button>
       </Form>
-      <output>
-        {actionData
+      <output form="RegisterPage__form">
+        {actionData && actionData.errors
           ? actionData.errors.map((err) => (
-              <div>
+              <div key={err.msg}>
                 {err.path}: {err.msg}
               </div>
             ))

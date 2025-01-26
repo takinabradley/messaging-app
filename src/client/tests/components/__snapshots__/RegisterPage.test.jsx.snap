@@ -1,0 +1,53 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`RegisterPage > renders 1`] = `
+<div
+  class="RegisterPage"
+  data-testid="RegisterPage"
+>
+  Please register...
+  <form
+    action="/register"
+    id="RegisterPage__form"
+    method="post"
+    name="RegisterPage__form"
+  >
+    <label
+      for="RegisterPage__username"
+    >
+      username
+      <input
+        id="RegisterPage__username"
+        name="username"
+        type="text"
+      />
+    </label>
+    <label
+      for="RegisterPage__password"
+    >
+      password
+      <input
+        id="RegisterPage__password"
+        name="password"
+        type="password"
+      />
+    </label>
+    <label
+      for="RegisterPage__verifyPassword"
+    >
+      Confirm Password:
+      <input
+        id="RegisterPage__verifyPassword"
+        name="verifyPassword"
+        type="password"
+      />
+    </label>
+    <button>
+      register
+    </button>
+  </form>
+  <output
+    form="RegisterPage__form"
+  />
+</div>
+`;

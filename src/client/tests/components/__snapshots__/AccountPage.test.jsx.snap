@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AccountPage > renders 1`] = `
+<div
+  class="AccountPage"
+  data-testid="AccountPage"
+>
+  Account stuff...
+</div>
+`;

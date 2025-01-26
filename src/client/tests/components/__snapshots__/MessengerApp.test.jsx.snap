@@ -1,0 +1,35 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MessengerApp > renders 1`] = `
+<div
+  class="MessengerApp"
+  data-testid="MessengerApp"
+>
+  Welcome to the messenger app!
+  <div>
+    wanna go to the 
+    <a
+      href="/"
+    >
+      main page
+    </a>
+  </div>
+  <div>
+    wanna 
+    <a
+      href="/logout"
+    >
+      log out
+    </a>
+    ?
+  </div>
+  <div>
+    view 
+    <a
+      href="/account"
+    >
+      account settings
+    </a>
+  </div>
+</div>
+`;
