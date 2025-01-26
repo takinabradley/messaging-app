@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node --watch-path=src/server --watch src/server/server.js",
+    "dev": "node --watch-path=src/server/  src/server/server.js",
     "start": "NODE_ENV=production node src/server/server.js",
     "build": "vite build",
     "populateDB": "node src/server/populateDB.js",
