@@ -4,7 +4,12 @@ import User from "./models/User.js"
 import bcrypt from "bcryptjs"
 
 mongoose
-  .connect(process.env.MONGO_TEST_URI || process.env.MONGO_PROD_URI || "")
+  .connect(
+    process.env.MONGO_TEST_URI ||
+      process.env.MONGO_DEV_URI ||
+      process.env.MONGO_PROD_URI ||
+      ""
+  )
   .then(async () => {
     await User.create({
       username: "me",
