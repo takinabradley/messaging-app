@@ -50,10 +50,12 @@ authRouter.post(
     } catch (e) {
       return res.status(500).json({
         success: false,
-        errors: [{
-          type: "register_error",
-          msg: "Something went wrong. Please try again later"
-        }]
+        errors: [
+          {
+            type: "register_error",
+            msg: "Something went wrong. Please try again later"
+          }
+        ]
       })
     }
   })
@@ -87,19 +89,19 @@ authRouter.post(
     // check form info before sending data to passport
     const validation = validationResult(req)
     if (validation.isEmpty()) return next()
-    return res
-      .status(400)
-      .json({ success: false, errors: validation.array() })
+    return res.status(400).json({ success: false, errors: validation.array() })
   },
   passport.authenticate("local", { failWithError: true }),
   (err, req, res, next) => {
     if (err.message === "Unauthorized") {
       return res.status(401).json({
         success: false,
-        errors: [{
-          type: 'login_error',
-          msg: "username or password is incorrect"
-        }]
+        errors: [
+          {
+            type: "login_error",
+            msg: "username or password is incorrect"
+          }
+        ]
       })
     }
     next(err)
@@ -107,8 +109,7 @@ authRouter.post(
   (req, res, next) => {
     if (req.user) return res.json({ success: true, eroors: [] })
     next()
-  },
-
+  }
 )
 
 authRouter.post("/logout", function (req, res, next) {
@@ -123,7 +124,10 @@ authRouter.post("/logout", function (req, res, next) {
 })
 
 authRouter.use((err, req, res, next) => {
-  if (err) return res.status(500).json({ message: err?.message || "Something went wrong!" })
+  if (err)
+    return res
+      .status(500)
+      .json({ message: err?.message || "Something went wrong!" })
   next()
 })
 
